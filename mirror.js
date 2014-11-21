@@ -50,7 +50,6 @@ MirrorClient.prototype._read = function() {
             var tag = data.slice(4, -1);
 
             if (state == '0201' || state == '0202') {
-                
                 this.emit('tag', tag, (state == '0201') ? true : false);
             }
         }

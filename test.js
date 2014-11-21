@@ -15,6 +15,6 @@ test.on('disconnected', function() {
 
 test.on('error', function(error) {
     setTimeout(function() {
-        this._open();
+        this.open();
     }.bind(this), 1000);
 }.bind(test));

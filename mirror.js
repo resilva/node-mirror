@@ -5,12 +5,12 @@ var EventEmitter = require('events').EventEmitter;
 exports.MirrorClient = MirrorClient = function(device) {
     this._device = null;
     this._device_name = device;
-    this._open();
+    this.open();
 };
 
 util.inherits(MirrorClient, EventEmitter);
 
-MirrorClient.prototype._open = function() {
+MirrorClient.prototype.open = function() {
     try {
         this._device = fs.createReadStream(this._device_name);
 

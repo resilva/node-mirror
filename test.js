@@ -13,6 +13,10 @@ test.on('disconnected', function() {
     console.log('Mirror disconnected');
 });
 
+test.on('orientation', function(orientation) {
+    console.log('Mirror orientation changed to ' + ((orientation) ? 'up' : 'down'));
+});
+
 test.on('error', function(error) {
     setTimeout(function() {
         this.open();

@@ -41,6 +41,14 @@ MirrorClient.prototype._device_error = function(error) {
     this.emit('error', error);
 };
 
+MirrorClient.prototype._device_orientation = function(orientation) {
+    this.emit('orientation', orientation);
+};
+
+MirrorClient.prototype._device_tag = function(tag, state) {
+    this.emit('tag', tag, state);
+};
+
 MirrorClient.prototype._read = function() {
     try {
         var chunk;
@@ -49,8 +57,20 @@ MirrorClient.prototype._read = function() {
             var state = data.slice(0, 4);
             var tag = data.slice(4, -1);
 
-            if (state == '0201' || state == '0202') {
-                this.emit('tag', tag, (state == '0201') ? true : false);
+            switch (state) {
+                case '0104':
+                case '0105':
+                        var orientation = (state == '0104') ? true : false;
+                        this._device_orientation(orientation);
+                    break;
+
+                case '0201':
+                case '0202':
+                    var tag = data.slice(4, -1);
+                    var tag_state = (state == '0201') ? true : false;
+                    this._device_tag(tag, tag_state);
+                    this.emit('tag', tag, (state == '0201') ? true : false);
+                    break;
             }
         }
     } catch (e) {
